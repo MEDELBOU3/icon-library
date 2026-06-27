@@ -1,173 +1,481 @@
-/* Icon Library - Game Engine Edition */
+/* Professional Game Engine Theme */
 :root {
-  --icon-size-xs: 12px;
-  --icon-size-sm: 16px;
-  --icon-size-md: 20px;
-  --icon-size-lg: 24px;
-  --icon-size-xl: 32px;
-  
-  --icon-color-default: #c8d0d8;
-  --icon-color-hover: #e8edf2;
-  --icon-color-active: #4a9eff;
-  --icon-color-disabled: #4a525a;
-  
-  --icon-bg-hover: rgba(200, 208, 216, 0.08);
-  --icon-bg-active: rgba(74, 158, 255, 0.15);
-  
-  --icon-control-height: 28px;
+    --bg-primary: #14181f;
+    --bg-secondary: #1a2029;
+    --bg-tertiary: #222a33;
+    --bg-panel: #1e2530;
+    --text-primary: #c8d0d8;
+    --text-secondary: #8a929a;
+    --text-muted: #4a525a;
+    --border-color: #2a323a;
+    --border-light: #3a424a;
+    --accent-blue: #4a9eff;
+    --accent-green: #54d98c;
+    --accent-orange: #f0a030;
+    --accent-red: #e06050;
 }
 
-/* ========================================
-   BASE ICON
-   ======================================== */
-.icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-  border-radius: 0;
-  cursor: pointer;
-  user-select: none;
-  color: var(--icon-color-default);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.icon svg {
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: stroke 0.15s ease;
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
 }
 
-.icon:hover {
-  color: var(--icon-color-hover);
+.app {
+    display: grid;
+    grid-template-rows: 32px 44px 1fr 24px;
+    height: 100vh;
+    background: var(--bg-primary);
 }
 
-.icon:active,
-.icon.active {
-  color: var(--icon-color-active);
+.menu-bar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0 10px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.icon.disabled {
-  color: var(--icon-color-disabled);
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.5;
+.menu-item {
+    padding: 4px 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 0;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.15s ease;
 }
 
-/* ========================================
-   TOOLBAR ICON
-   ======================================== */
+.menu-item:hover {
+    color: var(--text-primary);
+    background: rgba(200, 208, 216, 0.06);
+}
+
+.menu-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.menu-brand .brand-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-blue);
+}
+
+.menu-separator {
+    width: 1px;
+    height: 20px;
+    background: var(--border-color);
+    margin: 0 4px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 8px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0 4px;
+}
+
+.toolbar-group-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    padding: 0 4px;
+    font-weight: 600;
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 24px;
+    background: var(--border-color);
+    margin: 0 4px;
+}
+
+.toolbar-spacer {
+    flex: 1;
+}
+
 .toolbar-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: 1px solid transparent;
-  border-radius: 0;
-  background: transparent;
-  color: #8a929a;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  padding: 0;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    padding: 0;
 }
 
 .toolbar-icon:hover {
-  color: #c8d0d8;
-  background: rgba(200, 208, 216, 0.06);
-  border-color: rgba(200, 208, 216, 0.08);
+    color: var(--text-primary);
+    background: rgba(200, 208, 216, 0.06);
 }
 
-.toolbar-icon:active,
 .toolbar-icon.active {
-  color: #4a9eff;
-  background: rgba(74, 158, 255, 0.1);
-  border-color: rgba(74, 158, 255, 0.2);
+    color: var(--accent-blue);
+    background: rgba(74, 158, 255, 0.1);
 }
 
-.toolbar-icon svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.workspace {
+    display: grid;
+    grid-template-columns: 220px 1fr 240px;
+    gap: 1px;
+    background: var(--border-color);
+    padding: 1px;
+    overflow: hidden;
 }
 
-/* ========================================
-   ICON BUTTON
-   ======================================== */
+.panel {
+    background: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    min-height: 28px;
+    flex-shrink: 0;
+}
+
+.panel-content {
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+}
+
+.icon-browser-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+}
+
+.icon-browser-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 4px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 9px;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.icon-browser-item:hover {
+    color: var(--text-primary);
+    background: rgba(200, 208, 216, 0.06);
+    border-color: rgba(200, 208, 216, 0.08);
+}
+
+.icon-browser-item.active {
+    color: var(--accent-blue);
+    background: rgba(74, 158, 255, 0.1);
+    border-color: rgba(74, 158, 255, 0.2);
+}
+
+.icon-browser-item .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.icon-browser-item span {
+    font-size: 8px;
+    line-height: 1;
+    text-align: center;
+    word-break: break-all;
+    color: var(--text-muted);
+}
+
+.icon-browser-item:hover span {
+    color: var(--text-secondary);
+}
+
+.icon-browser-item.active span {
+    color: var(--accent-blue);
+}
+
+.viewport {
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.viewport-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
+.viewport-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+}
+
+.viewport-icon-preview {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    background: rgba(26, 32, 41, 0.6);
+    border: 1px solid var(--border-color);
+}
+
+.viewport-icon-preview .icon {
+    width: 80px;
+    height: 80px;
+}
+
+.viewport-icon-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 16px;
+    border: 1px solid var(--border-color);
+    font-family: 'SF Mono', 'Consolas', monospace;
+}
+
+.viewport-controls {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--border-color);
+}
+
+.viewport-controls .size-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding: 0 8px;
+    min-width: 36px;
+    text-align: center;
+    font-family: 'SF Mono', 'Consolas', monospace;
+}
+
 .icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid transparent;
-  border-radius: 0;
-  background: transparent;
-  color: var(--icon-color-default);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    padding: 4px;
 }
 
 .icon-btn:hover {
-  color: var(--icon-color-hover);
-  background: var(--icon-bg-hover);
-}
-
-.icon-btn:active,
-.icon-btn.active {
-  color: var(--icon-color-active);
-  background: var(--icon-bg-active);
-}
-
-.icon-btn svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+    color: var(--text-primary);
+    background: rgba(200, 208, 216, 0.06);
 }
 
 .icon-btn-sm {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
-.icon-btn-sm svg {
-  width: 14px;
-  height: 14px;
+.icon-btn-sm .icon {
+    width: 14px;
+    height: 14px;
 }
 
-.icon-btn-md {
-  width: 28px;
-  height: 28px;
+.property-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
 }
 
-.icon-btn-md svg {
-  width: 16px;
-  height: 16px;
+.property-label {
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
-/* ========================================
-   LOADING
-   ======================================== */
+.property-value {
+    color: var(--text-primary);
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 11px;
+}
+
+.property-value.green {
+    color: var(--accent-green);
+}
+
+.property-section {
+    margin-top: 12px;
+}
+
+.property-section-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.property-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.property-tag {
+    font-size: 9px;
+    padding: 2px 8px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.status-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-green);
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-light);
+}
+
 .icon-loading {
-  animation: iconPulse 1.5s ease-in-out infinite;
+    opacity: 0.5;
+    animation: pulse 1s ease-in-out infinite;
 }
 
-@keyframes iconPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+@media (max-width: 1024px) {
+    .workspace {
+        grid-template-columns: 180px 1fr 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+    
+    .panel {
+        max-height: 200px;
+    }
+    
+    .viewport {
+        min-height: 300px;
+    }
 }
