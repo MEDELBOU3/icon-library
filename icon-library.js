@@ -1,7 +1,6 @@
 /**
- * Icon Library - Professional Desktop Editor
+ * Icon Library - Game Engine Edition
  * @version 1.0.0
- * Hosted on GitHub Pages
  */
 
 ;(function(global) {
@@ -12,103 +11,62 @@
   const ICON_LOADING = new Set();
   const ICON_CACHE = new Map();
 
-  // Configuration - Auto-detect GitHub Pages path
+  // Configuration
   const CONFIG = {
     baseUrl: getBaseUrl(),
-    fallbackIcon: 'home',
+    fallbackIcon: 'cube',
     defaultSize: 20,
     defaultColor: '#c8d0d8'
   };
 
-  /**
-   * Get base URL for icons (works on GitHub Pages)
-   */
   function getBaseUrl() {
-    // Get current script path
     const scripts = document.getElementsByTagName('script');
     const currentScript = scripts[scripts.length - 1];
     const scriptSrc = currentScript.src;
     
-    // Extract base path
     if (scriptSrc) {
       const url = new URL(scriptSrc);
       const pathParts = url.pathname.split('/');
-      // Remove the script filename
       pathParts.pop();
-      // If we're in docs folder, icons are in docs/icons/
       const basePath = pathParts.join('/') + '/icons/';
       return `${url.origin}${basePath}`;
     }
     
-    // Fallback: assume we're in docs folder
-    return window.location.origin + '/icon-library/docs/icons/';
+    return window.location.origin + '/icons/';
   }
 
-  /**
-   * Register an icon
-   */
-  function registerIcon(name, svgContent, metadata = {}) {
-    if (ICON_REGISTRY.has(name)) {
-      console.warn(`Icon "${name}" already registered, overwriting...`);
-    }
+  // ========================================
+  // REGISTER ALL ICONS
+  // ========================================
+  function registerAllIcons() {
+    // These will be loaded from the icons folder
+    const iconNames = [
+      'transform', 'translate', 'rotate', 'scale', 'snap', 'grid',
+      'cube', 'sphere', 'cylinder', 'plane', 'torus',
+      'sculpt', 'extrude', 'bevel', 'knife',
+      'timeline', 'keyframe', 'curve', 'dopesheet',
+      'camera', 'orthographic', 'perspective',
+      'material', 'texture', 'uv',
+      'brush', 'eyedropper', 'measure', 'pivot', 'select', 'marquee',
+      'asset', 'import', 'export', 'preferences'
+    ];
     
-    ICON_REGISTRY.set(name, {
-      svg: svgContent,
-      metadata: {
-        category: metadata.category || 'general',
-        tags: metadata.tags || [],
-        created: metadata.created || new Date().toISOString()
-      }
-    });
-    
-    ICON_CACHE.set(name, svgContent);
-  }
-
-  /**
-   * Register multiple icons
-   */
-  function registerIcons(icons) {
-    Object.entries(icons).forEach(([name, data]) => {
-      if (typeof data === 'string') {
-        registerIcon(name, data);
-      } else {
-        registerIcon(name, data.svg, data.metadata);
-      }
+    iconNames.forEach(name => {
+      // Register placeholder - will be loaded on demand
+      ICON_REGISTRY.set(name, {
+        svg: null,
+        metadata: {
+          category: 'game-engine',
+          tags: [],
+          loaded: false
+        }
+      });
     });
   }
 
-  /**
-   * Get icon SVG
-   */
-  function getIcon(name, options = {}) {
-    const iconName = name || CONFIG.fallbackIcon;
-    
-    // Check cache first
-    if (ICON_CACHE.has(iconName)) {
-      return ICON_CACHE.get(iconName);
-    }
-    
-    // Check registry
-    if (ICON_REGISTRY.has(iconName)) {
-      const iconData = ICON_REGISTRY.get(iconName);
-      ICON_CACHE.set(iconName, iconData.svg);
-      return iconData.svg;
-    }
-    
-    // Load from GitHub Pages
-    if (!ICON_LOADING.has(iconName)) {
-      loadIconFromGitHub(iconName, options);
-    }
-    
-    // Return loading state or fallback
-    return getIcon(CONFIG.fallbackIcon, options);
-  }
-
-  /**
-   * Load icon from GitHub Pages
-   */
-  function loadIconFromGitHub(name, options = {}) {
+  function loadIconFromCDN(name) {
     if (ICON_LOADING.has(name)) return;
+    if (ICON_CACHE.has(name)) return;
     
     ICON_LOADING.add(name);
     
@@ -116,43 +74,63 @@
     
     fetch(url)
       .then(response => {
-        if (!response.ok) throw new Error(`Failed to load icon: ${name} (${response.status})`);
+        if (!response.ok) throw new Error(`Failed to load icon: ${name}`);
         return response.text();
       })
       .then(svg => {
-        // Validate SVG
-        if (!svg.includes('<svg')) {
-          throw new Error(`Invalid SVG content for: ${name}`);
-        }
-        
         ICON_REGISTRY.set(name, {
           svg: svg,
-          metadata: { category: 'github', tags: [] }
+          metadata: { category: 'game-engine', tags: [], loaded: true }
         });
         ICON_CACHE.set(name, svg);
         ICON_LOADING.delete(name);
         
-        // Trigger update for components using this icon
         document.dispatchEvent(new CustomEvent('iconLoaded', { 
           detail: { name, svg } 
         }));
-        
-        console.log(`✅ Icon loaded: ${name}`);
       })
       .catch(error => {
-        console.error(`❌ Failed to load icon: ${name}`, error);
+        console.error(`Failed to load icon: ${name}`, error);
         ICON_LOADING.delete(name);
-        
-        // Use fallback
-        if (name !== CONFIG.fallbackIcon) {
-          getIcon(CONFIG.fallbackIcon, options);
-        }
       });
   }
 
-  /**
-   * Create icon element
-   */
+  function getIcon(name, options = {}) {
+    const iconName = name || CONFIG.fallbackIcon;
+    
+    if (ICON_CACHE.has(iconName)) {
+      return ICON_CACHE.get(iconName);
+    }
+    
+    if (ICON_REGISTRY.has(iconName)) {
+      const data = ICON_REGISTRY.get(iconName);
+      if (data.svg) {
+        ICON_CACHE.set(iconName, data.svg);
+        return data.svg;
+      }
+    }
+    
+    // Load from CDN if not loaded
+    if (!ICON_LOADING.has(iconName)) {
+      loadIconFromCDN(iconName);
+    }
+    
+    // Return fallback while loading
+    if (ICON_CACHE.has(CONFIG.fallbackIcon)) {
+      return ICON_CACHE.get(CONFIG.fallbackIcon);
+    }
+    
+    // Simple fallback SVG
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="1.5"/>
+    </svg>`;
+  }
+
+  // ========================================
+  // PUBLIC API
+  // ========================================
   function createIcon(name, options = {}) {
     const {
       size = CONFIG.defaultSize,
@@ -178,14 +156,11 @@
     if (ariaLabel) container.setAttribute('aria-label', ariaLabel);
     if (onClick) container.addEventListener('click', onClick);
 
-    // Get icon SVG
     let svgContent = getIcon(name, options);
     
-    // If icon is loading, add loading class
     if (ICON_LOADING.has(name)) {
       container.classList.add('icon-loading');
       
-      // Listen for load event
       const loadHandler = (e) => {
         if (e.detail.name === name) {
           container.innerHTML = e.detail.svg;
@@ -202,10 +177,31 @@
     return container;
   }
 
-  /**
-   * Create icon button
-   */
-  function createIconButton(name, options = {}) {
+  function createToolbarIcon(name, options = {}) {
+    const {
+      active = false,
+      disabled = false,
+      onClick = null,
+      tooltip = ''
+    } = options;
+
+    const button = document.createElement('button');
+    button.className = 'toolbar-icon';
+    if (active) button.classList.add('active');
+    if (disabled) button.classList.add('disabled');
+    if (tooltip) button.setAttribute('title', tooltip);
+    if (onClick) button.addEventListener('click', onClick);
+
+    const icon = createIcon(name, {
+      size: 18,
+      color: 'currentColor'
+    });
+    
+    button.appendChild(icon);
+    return button;
+  }
+
+  function createButton(name, options = {}) {
     const {
       size = 'md',
       label = '',
@@ -241,203 +237,32 @@
     return button;
   }
 
-  /**
-   * Create toolbar icon
-   */
-  function createToolbarIcon(name, options = {}) {
-    const {
-      active = false,
-      disabled = false,
-      onClick = null,
-      tooltip = ''
-    } = options;
-
-    const button = document.createElement('button');
-    button.className = 'toolbar-icon';
-    if (active) button.classList.add('active');
-    if (disabled) button.classList.add('disabled');
-    if (tooltip) button.setAttribute('title', tooltip);
-    if (onClick) button.addEventListener('click', onClick);
-
-    const icon = createIcon(name, {
-      size: 18,
-      color: 'currentColor'
-    });
-    
-    button.appendChild(icon);
-    return button;
-  }
-
-  /**
-   * Create icon grid for icon picker
-   */
-  function createIconGrid(icons, options = {}) {
-    const {
-      onSelect = null,
-      selectedIcon = null,
-      columns = 6,
-      showLabels = true
-    } = options;
-
-    const grid = document.createElement('div');
-    grid.className = 'icon-grid';
-    grid.style.display = 'grid';
-    grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-    grid.style.gap = '4px';
-    grid.style.padding = '8px';
-    grid.style.background = '#1a2029';
-    grid.style.border = '1px solid #2a323a';
-
-    const iconList = Array.isArray(icons) ? icons : Object.keys(icons);
-
-    iconList.forEach(iconName => {
-      const item = document.createElement('button');
-      item.className = 'icon-grid-item';
-      item.style.display = 'flex';
-      item.style.flexDirection = 'column';
-      item.style.alignItems = 'center';
-      item.style.justifyContent = 'center';
-      item.style.gap = '4px';
-      item.style.padding = '8px 4px';
-      item.style.border = '1px solid transparent';
-      item.style.background = 'transparent';
-      item.style.color = '#8a929a';
-      item.style.cursor = 'pointer';
-      item.style.fontSize = '10px';
-      item.style.transition = 'all 0.15s ease';
-      
-      if (iconName === selectedIcon) {
-        item.classList.add('active');
-        item.style.color = '#4a9eff';
-        item.style.background = 'rgba(74, 158, 255, 0.1)';
-        item.style.borderColor = 'rgba(74, 158, 255, 0.2)';
-      }
-
-      // Hover styles
-      item.addEventListener('mouseenter', () => {
-        item.style.color = '#c8d0d8';
-        item.style.background = 'rgba(200, 208, 216, 0.06)';
-        item.style.borderColor = 'rgba(200, 208, 216, 0.08)';
-      });
-      
-      item.addEventListener('mouseleave', () => {
-        if (!item.classList.contains('active')) {
-          item.style.color = '#8a929a';
-          item.style.background = 'transparent';
-          item.style.borderColor = 'transparent';
-        }
-      });
-
-      const icon = createIcon(iconName, {
-        size: 24,
-        color: 'currentColor'
-      });
-
-      item.appendChild(icon);
-
-      if (showLabels) {
-        const label = document.createElement('span');
-        label.textContent = iconName;
-        label.style.fontSize = '9px';
-        label.style.lineHeight = '1';
-        label.style.textAlign = 'center';
-        label.style.wordBreak = 'break-all';
-        item.appendChild(label);
-      }
-
-      if (onSelect) {
-        item.addEventListener('click', () => {
-          onSelect(iconName);
-          document.querySelectorAll('.icon-grid-item').forEach(el => {
-            el.classList.remove('active');
-            el.style.color = '#8a929a';
-            el.style.background = 'transparent';
-            el.style.borderColor = 'transparent';
-          });
-          item.classList.add('active');
-          item.style.color = '#4a9eff';
-          item.style.background = 'rgba(74, 158, 255, 0.1)';
-          item.style.borderColor = 'rgba(74, 158, 255, 0.2)';
-        });
-      }
-
-      grid.appendChild(item);
-    });
-
-    return grid;
-  }
-
-  /**
-   * Preload icons
-   */
   function preloadIcons(iconNames) {
     iconNames.forEach(name => {
       if (!ICON_CACHE.has(name) && !ICON_LOADING.has(name)) {
-        loadIconFromGitHub(name);
+        loadIconFromCDN(name);
       }
     });
   }
 
-  /**
-   * Check if icon exists
-   */
-  function iconExists(name) {
-    return ICON_REGISTRY.has(name) || ICON_CACHE.has(name);
-  }
-
-  /**
-   * Get all registered icon names
-   */
-  function getIconNames() {
-    return Array.from(ICON_REGISTRY.keys());
-  }
-
-  /**
-   * Search icons
-   */
-  function searchIcons(query) {
-    const results = [];
-    const searchTerm = query.toLowerCase();
-    
-    ICON_REGISTRY.forEach((data, name) => {
-      if (name.toLowerCase().includes(searchTerm)) {
-        results.push(name);
-        return;
-      }
-      
-      if (data.metadata && data.metadata.tags) {
-        if (data.metadata.tags.some(tag => tag.toLowerCase().includes(searchTerm))) {
-          results.push(name);
-        }
-      }
-    });
-    
-    return results;
-  }
-
-  /**
-   * Update configuration
-   */
   function configure(config) {
     Object.assign(CONFIG, config);
   }
 
-  // Public API
+  // ========================================
+  // EXPOSE API
+  // ========================================
   const IconLibrary = {
-    register: registerIcon,
-    registerMany: registerIcons,
-    get: getIcon,
     create: createIcon,
-    createButton: createIconButton,
     createToolbarIcon: createToolbarIcon,
-    createGrid: createIconGrid,
+    createButton: createButton,
     preload: preloadIcons,
-    exists: iconExists,
-    getNames: getIconNames,
-    search: searchIcons,
     configure: configure,
     version: '1.0.0'
   };
+
+  // Register icons on load
+  registerAllIcons();
 
   // Expose globally
   if (typeof module !== 'undefined' && module.exports) {
@@ -446,7 +271,7 @@
     global.IconLibrary = IconLibrary;
   }
 
-  console.log('🚀 Icon Library loaded successfully!');
+  console.log('🎮 Game Engine Icon Library loaded!');
   console.log(`📁 Base URL: ${CONFIG.baseUrl}`);
 
 })(typeof window !== 'undefined' ? window : global);
