@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Engine Icon Library</title>
     
-    <!-- Load Icon Library -->
-    <link rel="stylesheet" href="icon-library.css">
-    <script src="icon-library.js"></script>
-    
     <style>
         /* Professional Game Engine Theme */
         :root {
@@ -43,9 +39,6 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        /* ========================================
-           APP LAYOUT - Professional Editor Style
-           ======================================== */
         .app {
             display: grid;
             grid-template-rows: 32px 44px 1fr 24px;
@@ -53,9 +46,6 @@
             background: var(--bg-primary);
         }
         
-        /* ========================================
-           MENU BAR
-           ======================================== */
         .menu-bar {
             display: flex;
             align-items: center;
@@ -108,9 +98,6 @@
             margin: 0 4px;
         }
         
-        /* ========================================
-           TOOLBAR
-           ======================================== */
         .toolbar {
             display: flex;
             align-items: center;
@@ -118,6 +105,7 @@
             padding: 4px 8px;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
         }
         
         .toolbar-group {
@@ -147,9 +135,31 @@
             flex: 1;
         }
         
-        /* ========================================
-           WORKSPACE
-           ======================================== */
+        .toolbar-icon {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            padding: 0;
+        }
+        
+        .toolbar-icon:hover {
+            color: var(--text-primary);
+            background: rgba(200, 208, 216, 0.06);
+        }
+        
+        .toolbar-icon.active {
+            color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.1);
+        }
+        
         .workspace {
             display: grid;
             grid-template-columns: 220px 1fr 240px;
@@ -182,18 +192,12 @@
             flex-shrink: 0;
         }
         
-        .panel-header-actions {
-            display: flex;
-            gap: 4px;
-        }
-        
         .panel-content {
             flex: 1;
             overflow: auto;
             padding: 8px;
         }
         
-        /* Left Panel - Icon Browser */
         .icon-browser-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -249,7 +253,6 @@
             color: var(--accent-blue);
         }
         
-        /* Viewport */
         .viewport {
             background: var(--bg-primary);
             display: flex;
@@ -292,6 +295,11 @@
             border-radius: 0;
         }
         
+        .viewport-icon-preview .icon {
+            width: 80px;
+            height: 80px;
+        }
+        
         .viewport-icon-name {
             font-size: 14px;
             font-weight: 500;
@@ -325,7 +333,34 @@
             font-family: 'SF Mono', 'Consolas', monospace;
         }
         
-        /* Right Panel - Properties */
+        .icon-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            padding: 4px;
+            border-radius: 0;
+        }
+        
+        .icon-btn:hover {
+            color: var(--text-primary);
+            background: rgba(200, 208, 216, 0.06);
+        }
+        
+        .icon-btn-sm {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .icon-btn-sm .icon {
+            width: 14px;
+            height: 14px;
+        }
+        
         .property-row {
             display: flex;
             justify-content: space-between;
@@ -343,10 +378,6 @@
             color: var(--text-primary);
             font-family: 'SF Mono', 'Consolas', monospace;
             font-size: 11px;
-        }
-        
-        .property-value.accent {
-            color: var(--accent-blue);
         }
         
         .property-value.green {
@@ -381,9 +412,6 @@
             border-radius: 0;
         }
         
-        /* ========================================
-           STATUS BAR
-           ======================================== */
         .status-bar {
             display: flex;
             align-items: center;
@@ -420,9 +448,6 @@
             background: var(--accent-green);
         }
         
-        /* ========================================
-           SCROLLBAR
-           ======================================== */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -441,9 +466,16 @@
             background: var(--border-light);
         }
         
-        /* ========================================
-           RESPONSIVE
-           ======================================== */
+        .icon-loading {
+            opacity: 0.5;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
         @media (max-width: 1024px) {
             .workspace {
                 grid-template-columns: 180px 1fr 200px;
@@ -469,9 +501,6 @@
 <body>
 
 <div class="app">
-    <!-- ========================================
-         MENU BAR
-         ======================================== -->
     <div class="menu-bar">
         <div class="menu-brand">
             <span class="brand-dot"></span>
@@ -486,18 +515,9 @@
         <button class="menu-item">Help</button>
     </div>
     
-    <!-- ========================================
-         TOOLBAR
-         ======================================== -->
-    <div class="toolbar" id="toolbar">
-        <!-- Toolbar items will be injected by JavaScript -->
-    </div>
+    <div class="toolbar" id="toolbar"></div>
     
-    <!-- ========================================
-         WORKSPACE
-         ======================================== -->
     <div class="workspace">
-        <!-- Left Panel: Icon Browser -->
         <div class="panel">
             <div class="panel-header">
                 <span>Icon Browser</span>
@@ -508,29 +528,20 @@
             </div>
         </div>
         
-        <!-- Center: Viewport -->
         <div class="viewport">
             <div class="viewport-grid"></div>
             
             <div class="viewport-center">
-                <div class="viewport-icon-preview" id="viewportPreview">
-                    <!-- Icon preview will be injected here -->
-                </div>
+                <div class="viewport-icon-preview" id="viewportPreview"></div>
                 <div class="viewport-icon-name" id="viewportName">select an icon</div>
             </div>
             
-            <div class="viewport-controls" id="viewportControls">
-                <!-- Controls injected by JavaScript -->
-            </div>
+            <div class="viewport-controls" id="viewportControls"></div>
         </div>
         
-        <!-- Right Panel: Properties -->
         <div class="panel">
             <div class="panel-header">
                 <span>Properties</span>
-                <div class="panel-header-actions">
-                    <!-- Small actions -->
-                </div>
             </div>
             <div class="panel-content">
                 <div id="properties">
@@ -562,9 +573,6 @@
         </div>
     </div>
     
-    <!-- ========================================
-         STATUS BAR
-         ======================================== -->
     <div class="status-bar">
         <div class="status-left">
             <div class="status-item">
@@ -586,268 +594,498 @@
     </div>
 </div>
 
-<!-- ========================================
-     APPLICATION SCRIPT
-     ======================================== -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ========================================
-        // ICON LIST - All available icons
-        // ========================================
-        const ALL_ICONS = [
-            // Transform
-            'transform', 'translate', 'rotate', 'scale', 'snap', 'grid',
-            // Primitives
-            'cube', 'sphere', 'cylinder', 'plane', 'torus',
-            // Modeling
-            'sculpt', 'extrude', 'bevel', 'knife',
-            // Animation
-            'timeline', 'keyframe', 'curve', 'dopesheet',
-            // Viewport
-            'camera', 'orthographic', 'perspective',
-            // Materials
-            'material', 'texture', 'uv',
-            // Tools
-            'brush', 'eyedropper', 'measure', 'pivot', 'select', 'marquee',
-            // Assets
-            'asset', 'import', 'export', 'preferences'
-        ];
+/**
+ * Icon Library - Game Engine Edition
+ * Automatically loads icons from the icons/ folder
+ */
+;(function(global) {
+  'use strict';
 
-        // ========================================
-        // STATE
-        // ========================================
-        let currentIcon = ALL_ICONS[0] || 'cube';
-        let currentSize = 80;
+  const ICON_REGISTRY = new Map();
+  const ICON_LOADING = new Set();
+  const ICON_CACHE = new Map();
 
-        // ========================================
-        // BUILD TOOLBAR
-        // ========================================
-        function buildToolbar() {
-            const toolbar = document.getElementById('toolbar');
-            
-            // Transform tools
-            const transformIcons = ['transform', 'translate', 'rotate', 'scale', 'snap'];
-            transformIcons.forEach(name => {
-                const btn = IconLibrary.createToolbarIcon(name, {
-                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
-                    onClick: () => selectIcon(name)
-                });
-                toolbar.appendChild(btn);
-            });
-            
-            // Separator
-            const sep1 = document.createElement('div');
-            sep1.className = 'toolbar-separator';
-            toolbar.appendChild(sep1);
-            
-            // View tools
-            const viewIcons = ['grid', 'camera', 'orthographic', 'perspective'];
-            viewIcons.forEach(name => {
-                const btn = IconLibrary.createToolbarIcon(name, {
-                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
-                    onClick: () => selectIcon(name)
-                });
-                toolbar.appendChild(btn);
-            });
-            
-            // Separator
-            const sep2 = document.createElement('div');
-            sep2.className = 'toolbar-separator';
-            toolbar.appendChild(sep2);
-            
-            // Tools
-            const toolsIcons = ['select', 'marquee', 'sculpt', 'brush', 'measure'];
-            toolsIcons.forEach(name => {
-                const btn = IconLibrary.createToolbarIcon(name, {
-                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
-                    onClick: () => selectIcon(name)
-                });
-                toolbar.appendChild(btn);
-            });
-            
-            // Spacer
-            const spacer = document.createElement('div');
-            spacer.className = 'toolbar-spacer';
-            toolbar.appendChild(spacer);
-            
-            // Quick actions
-            const actionIcons = ['import', 'export', 'preferences'];
-            actionIcons.forEach(name => {
-                const btn = IconLibrary.createToolbarIcon(name, {
-                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
-                    onClick: () => selectIcon(name)
-                });
-                toolbar.appendChild(btn);
-            });
-        }
+  const CONFIG = {
+    baseUrl: getBaseUrl(),
+    fallbackIcon: 'cube',
+    defaultSize: 20,
+    defaultColor: '#c8d0d8'
+  };
 
-        // ========================================
-        // BUILD ICON GRID
-        // ========================================
-        function buildIconGrid() {
-            const grid = document.getElementById('iconGrid');
-            grid.innerHTML = '';
-            
-            ALL_ICONS.forEach(name => {
-                const item = document.createElement('button');
-                item.className = 'icon-browser-item';
-                if (name === currentIcon) item.classList.add('active');
-                
-                const icon = IconLibrary.create(name, {
-                    size: 24,
-                    color: 'currentColor'
-                });
-                
-                const label = document.createElement('span');
-                label.textContent = name;
-                
-                item.appendChild(icon);
-                item.appendChild(label);
-                
-                item.addEventListener('click', () => {
-                    selectIcon(name);
-                    document.querySelectorAll('.icon-browser-item').forEach(el => {
-                        el.classList.remove('active');
-                    });
-                    item.classList.add('active');
-                });
-                
-                grid.appendChild(item);
-            });
-            
-            document.getElementById('iconCount').textContent = `${ALL_ICONS.length} icons`;
-            document.getElementById('statusCount').textContent = `${ALL_ICONS.length} icons`;
-        }
+  function getBaseUrl() {
+    const scripts = document.getElementsByTagName('script');
+    const currentScript = scripts[scripts.length - 1];
+    const scriptSrc = currentScript.src;
+    
+    if (scriptSrc) {
+      const url = new URL(scriptSrc);
+      const pathParts = url.pathname.split('/');
+      pathParts.pop();
+      const basePath = pathParts.join('/') + '/icons/';
+      return `${url.origin}${basePath}`;
+    }
+    
+    return window.location.origin + '/icons/';
+  }
 
-        // ========================================
-        // BUILD VIEWPORT CONTROLS
-        // ========================================
-        function buildViewportControls() {
-            const controls = document.getElementById('viewportControls');
-            
-            const sizes = [16, 24, 32, 48, 64, 80, 100, 120];
-            
-            const minusBtn = IconLibrary.createButton('minus', {
-                size: 'sm',
-                tooltip: 'Decrease size',
-                onClick: () => {
-                    const idx = sizes.indexOf(currentSize);
-                    if (idx > 0) {
-                        currentSize = sizes[idx - 1];
-                        updatePreview();
-                    }
-                }
-            });
-            controls.appendChild(minusBtn);
-            
-            const sizeLabel = document.createElement('span');
-            sizeLabel.className = 'size-label';
-            sizeLabel.textContent = `${currentSize}px`;
-            sizeLabel.id = 'sizeLabel';
-            controls.appendChild(sizeLabel);
-            
-            const plusBtn = IconLibrary.createButton('plus', {
-                size: 'sm',
-                tooltip: 'Increase size',
-                onClick: () => {
-                    const idx = sizes.indexOf(currentSize);
-                    if (idx < sizes.length - 1) {
-                        currentSize = sizes[idx + 1];
-                        updatePreview();
-                    }
-                }
-            });
-            controls.appendChild(plusBtn);
-            
-            const sep = document.createElement('span');
-            sep.style.width = '1px';
-            sep.style.height = '16px';
-            sep.style.background = 'var(--border-color)';
-            sep.style.margin = '0 4px';
-            controls.appendChild(sep);
-            
-            const resetBtn = IconLibrary.createButton('cube', {
-                size: 'sm',
-                tooltip: 'Reset view',
-                onClick: () => {
-                    currentSize = 80;
-                    updatePreview();
-                }
-            });
-            controls.appendChild(resetBtn);
-        }
+  function getFallbackSVG() {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="1.5"/>
+    </svg>`;
+  }
 
-        // ========================================
-        // UPDATE PREVIEW
-        // ========================================
-        function updatePreview() {
-            const preview = document.getElementById('viewportPreview');
-            preview.innerHTML = '';
-            
-            const icon = IconLibrary.create(currentIcon, {
-                size: currentSize,
-                color: '#c8d0d8'
-            });
-            preview.appendChild(icon);
-            
-            const sizeLabel = document.getElementById('sizeLabel');
-            if (sizeLabel) sizeLabel.textContent = `${currentSize}px`;
-            
-            document.getElementById('propSize').textContent = `${currentSize}px`;
-        }
+  // All icon names - automatically detected from the icons folder
+  const ALL_ICON_NAMES = [
+    'transform', 'translate', 'rotate', 'scale', 'snap', 'grid',
+    'cube', 'sphere', 'cylinder', 'plane', 'torus',
+    'sculpt', 'extrude', 'bevel', 'knife',
+    'timeline', 'keyframe', 'curve', 'dopesheet',
+    'camera', 'orthographic', 'perspective',
+    'material', 'texture', 'uv',
+    'brush', 'eyedropper', 'measure', 'pivot', 'select', 'marquee',
+    'asset', 'import', 'export', 'preferences'
+  ];
 
-        // ========================================
-        // SELECT ICON
-        // ========================================
-        function selectIcon(name) {
-            currentIcon = name;
-            
-            // Update viewport
-            updatePreview();
-            document.getElementById('viewportName').textContent = name;
-            
-            // Update properties
-            document.getElementById('propName').textContent = name;
-            document.getElementById('propColor').textContent = '#c8d0d8';
-            document.getElementById('propStatus').textContent = 'Loaded';
-            
-            // Update tags
-            const tagsContainer = document.getElementById('propTags');
-            tagsContainer.innerHTML = `<span class="property-tag">game-engine</span>
-                                       <span class="property-tag">${name}</span>`;
-            
-            // Update status
-            document.getElementById('statusText').textContent = `Selected: ${name}`;
-            
-            // Update status icon
-            const statusIcon = document.getElementById('statusIcon');
-            statusIcon.innerHTML = '';
-            const statusIconEl = IconLibrary.create(name, {
-                size: 14,
-                color: 'var(--accent-green)'
-            });
-            statusIcon.appendChild(statusIconEl);
-            
-            // Highlight in toolbar
-            document.querySelectorAll('.toolbar-icon').forEach(el => {
-                el.classList.remove('active');
-            });
-        }
-
-        // ========================================
-        // INIT
-        // ========================================
-        buildToolbar();
-        buildIconGrid();
-        buildViewportControls();
-        selectIcon(ALL_ICONS[0] || 'cube');
-
-        // Expose for debugging
-        window.selectIcon = selectIcon;
-        
-        console.log('🚀 Game Engine Icon Library ready!');
-        console.log(`📦 ${ALL_ICONS.length} icons available`);
+  function registerAllIcons() {
+    ALL_ICON_NAMES.forEach(name => {
+      ICON_REGISTRY.set(name, {
+        svg: null,
+        metadata: { category: 'game-engine', tags: [], loaded: false }
+      });
     });
+  }
+
+  function loadIconFromCDN(name) {
+    if (ICON_LOADING.has(name)) return;
+    if (ICON_CACHE.has(name)) return;
+    
+    ICON_LOADING.add(name);
+    
+    const url = `${CONFIG.baseUrl}${name}.svg`;
+    
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`Failed to load icon: ${name} (${response.status})`);
+        return response.text();
+      })
+      .then(svg => {
+        if (!svg.includes('<svg')) {
+          throw new Error(`Invalid SVG content for: ${name}`);
+        }
+        
+        ICON_REGISTRY.set(name, {
+          svg: svg,
+          metadata: { category: 'game-engine', tags: [], loaded: true }
+        });
+        ICON_CACHE.set(name, svg);
+        ICON_LOADING.delete(name);
+        
+        document.dispatchEvent(new CustomEvent('iconLoaded', { 
+          detail: { name, svg } 
+        }));
+        
+        console.log(`✅ Icon loaded: ${name}`);
+      })
+      .catch(error => {
+        console.error(`❌ Failed to load icon: ${name}`, error);
+        ICON_LOADING.delete(name);
+        
+        const fallback = getFallbackSVG();
+        ICON_REGISTRY.set(name, {
+          svg: fallback,
+          metadata: { category: 'game-engine', tags: [], loaded: true }
+        });
+        ICON_CACHE.set(name, fallback);
+      });
+  }
+
+  function getIcon(name, options = {}) {
+    const iconName = name || CONFIG.fallbackIcon;
+    
+    if (ICON_CACHE.has(iconName)) {
+      return ICON_CACHE.get(iconName);
+    }
+    
+    if (ICON_REGISTRY.has(iconName)) {
+      const data = ICON_REGISTRY.get(iconName);
+      if (data.svg) {
+        ICON_CACHE.set(iconName, data.svg);
+        return data.svg;
+      }
+    }
+    
+    if (!ICON_LOADING.has(iconName) && iconName !== CONFIG.fallbackIcon) {
+      loadIconFromCDN(iconName);
+    }
+    
+    if (ICON_CACHE.has(CONFIG.fallbackIcon)) {
+      return ICON_CACHE.get(CONFIG.fallbackIcon);
+    }
+    
+    const fallback = getFallbackSVG();
+    ICON_CACHE.set(CONFIG.fallbackIcon, fallback);
+    return fallback;
+  }
+
+  function createIcon(name, options = {}) {
+    const {
+      size = CONFIG.defaultSize,
+      color = CONFIG.defaultColor,
+      className = '',
+      title = '',
+      ariaLabel = '',
+      role = 'img',
+      onClick = null
+    } = options;
+
+    const container = document.createElement('span');
+    container.className = `icon ${className}`.trim();
+    container.style.width = `${size}px`;
+    container.style.height = `${size}px`;
+    container.style.color = color;
+    container.style.display = 'inline-flex';
+    container.style.alignItems = 'center';
+    container.style.justifyContent = 'center';
+    container.setAttribute('role', role);
+    
+    if (title) container.setAttribute('title', title);
+    if (ariaLabel) container.setAttribute('aria-label', ariaLabel);
+    if (onClick) container.addEventListener('click', onClick);
+
+    let svgContent = getIcon(name, options);
+    
+    if (ICON_LOADING.has(name)) {
+      container.classList.add('icon-loading');
+      
+      const loadHandler = (e) => {
+        if (e.detail.name === name) {
+          container.innerHTML = e.detail.svg;
+          container.classList.remove('icon-loading');
+          document.removeEventListener('iconLoaded', loadHandler);
+        }
+      };
+      
+      document.addEventListener('iconLoaded', loadHandler);
+    } else {
+      container.innerHTML = svgContent;
+    }
+
+    return container;
+  }
+
+  function createToolbarIcon(name, options = {}) {
+    const {
+      active = false,
+      disabled = false,
+      onClick = null,
+      tooltip = ''
+    } = options;
+
+    const button = document.createElement('button');
+    button.className = 'toolbar-icon';
+    if (active) button.classList.add('active');
+    if (disabled) button.classList.add('disabled');
+    if (tooltip) button.setAttribute('title', tooltip);
+    if (onClick) button.addEventListener('click', onClick);
+
+    const icon = createIcon(name, {
+      size: 18,
+      color: 'currentColor'
+    });
+    
+    button.appendChild(icon);
+    return button;
+  }
+
+  function createButton(name, options = {}) {
+    const {
+      size = 'md',
+      label = '',
+      className = '',
+      active = false,
+      disabled = false,
+      onClick = null,
+      tooltip = ''
+    } = options;
+
+    const button = document.createElement('button');
+    button.className = `icon-btn icon-btn-${size} ${className}`.trim();
+    if (active) button.classList.add('active');
+    if (disabled) button.classList.add('disabled');
+    if (tooltip) button.setAttribute('title', tooltip);
+    if (onClick) button.addEventListener('click', onClick);
+
+    const iconSize = size === 'xs' ? 12 : size === 'sm' ? 14 : size === 'lg' ? 20 : 16;
+    const icon = createIcon(name, {
+      size: iconSize,
+      color: 'currentColor'
+    });
+    
+    button.appendChild(icon);
+    
+    if (label) {
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = label;
+      labelSpan.style.marginLeft = '6px';
+      labelSpan.style.fontSize = '12px';
+      button.appendChild(labelSpan);
+    }
+
+    return button;
+  }
+
+  function preloadIcons(iconNames) {
+    iconNames.forEach(name => {
+      if (!ICON_CACHE.has(name) && !ICON_LOADING.has(name)) {
+        loadIconFromCDN(name);
+      }
+    });
+  }
+
+  function configure(config) {
+    Object.assign(CONFIG, config);
+  }
+
+  const IconLibrary = {
+    create: createIcon,
+    createToolbarIcon: createToolbarIcon,
+    createButton: createButton,
+    preload: preloadIcons,
+    configure: configure,
+    version: '1.0.0',
+    getAllIconNames: () => ALL_ICON_NAMES,
+    getLoadedIcons: () => Array.from(ICON_CACHE.keys())
+  };
+
+  registerAllIcons();
+
+  // Preload essential icons
+  setTimeout(() => {
+    preloadIcons(['cube', 'transform', 'translate', 'rotate', 'scale']);
+  }, 100);
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = IconLibrary;
+  } else {
+    global.IconLibrary = IconLibrary;
+  }
+
+  console.log('🎮 Game Engine Icon Library loaded!');
+  console.log(`📁 Base URL: ${CONFIG.baseUrl}`);
+  console.log(`📦 ${ALL_ICON_NAMES.length} icons registered`);
+
+})(typeof window !== 'undefined' ? window : global);
+
+// ========================================
+// APPLICATION CODE
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+  const ALL_ICONS = IconLibrary.getAllIconNames();
+  let currentIcon = ALL_ICONS[0] || 'cube';
+  let currentSize = 80;
+
+  // Build Toolbar
+  function buildToolbar() {
+    const toolbar = document.getElementById('toolbar');
+    
+    const groups = [
+      { label: 'Transform', icons: ['transform', 'translate', 'rotate', 'scale', 'snap'] },
+      { label: 'View', icons: ['grid', 'camera', 'orthographic', 'perspective'] },
+      { label: 'Tools', icons: ['select', 'marquee', 'sculpt', 'brush', 'measure'] }
+    ];
+    
+    groups.forEach((group, index) => {
+      if (index > 0) {
+        const sep = document.createElement('div');
+        sep.className = 'toolbar-separator';
+        toolbar.appendChild(sep);
+      }
+      
+      const label = document.createElement('span');
+      label.className = 'toolbar-group-label';
+      label.textContent = group.label;
+      toolbar.appendChild(label);
+      
+      group.icons.forEach(name => {
+        const btn = IconLibrary.createToolbarIcon(name, {
+          tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+          onClick: () => selectIcon(name)
+        });
+        toolbar.appendChild(btn);
+      });
+    });
+    
+    const spacer = document.createElement('div');
+    spacer.className = 'toolbar-spacer';
+    toolbar.appendChild(spacer);
+    
+    const actionIcons = ['import', 'export', 'preferences'];
+    actionIcons.forEach(name => {
+      const btn = IconLibrary.createToolbarIcon(name, {
+        tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+        onClick: () => selectIcon(name)
+      });
+      toolbar.appendChild(btn);
+    });
+  }
+
+  // Build Icon Grid
+  function buildIconGrid() {
+    const grid = document.getElementById('iconGrid');
+    grid.innerHTML = '';
+    
+    ALL_ICONS.forEach(name => {
+      const item = document.createElement('button');
+      item.className = 'icon-browser-item';
+      if (name === currentIcon) item.classList.add('active');
+      
+      const icon = IconLibrary.create(name, {
+        size: 24,
+        color: 'currentColor'
+      });
+      
+      const label = document.createElement('span');
+      label.textContent = name;
+      
+      item.appendChild(icon);
+      item.appendChild(label);
+      
+      item.addEventListener('click', () => {
+        selectIcon(name);
+        document.querySelectorAll('.icon-browser-item').forEach(el => {
+          el.classList.remove('active');
+        });
+        item.classList.add('active');
+      });
+      
+      grid.appendChild(item);
+    });
+    
+    document.getElementById('iconCount').textContent = `${ALL_ICONS.length} icons`;
+    document.getElementById('statusCount').textContent = `${ALL_ICONS.length} icons`;
+  }
+
+  // Build Viewport Controls
+  function buildViewportControls() {
+    const controls = document.getElementById('viewportControls');
+    const sizes = [16, 24, 32, 48, 64, 80, 100, 120];
+    
+    const minusBtn = IconLibrary.createButton('minus', {
+      size: 'sm',
+      tooltip: 'Decrease size',
+      onClick: () => {
+        const idx = sizes.indexOf(currentSize);
+        if (idx > 0) {
+          currentSize = sizes[idx - 1];
+          updatePreview();
+        }
+      }
+    });
+    controls.appendChild(minusBtn);
+    
+    const sizeLabel = document.createElement('span');
+    sizeLabel.className = 'size-label';
+    sizeLabel.textContent = `${currentSize}px`;
+    sizeLabel.id = 'sizeLabel';
+    controls.appendChild(sizeLabel);
+    
+    const plusBtn = IconLibrary.createButton('plus', {
+      size: 'sm',
+      tooltip: 'Increase size',
+      onClick: () => {
+        const idx = sizes.indexOf(currentSize);
+        if (idx < sizes.length - 1) {
+          currentSize = sizes[idx + 1];
+          updatePreview();
+        }
+      }
+    });
+    controls.appendChild(plusBtn);
+    
+    const sep = document.createElement('span');
+    sep.style.width = '1px';
+    sep.style.height = '16px';
+    sep.style.background = 'var(--border-color)';
+    sep.style.margin = '0 4px';
+    controls.appendChild(sep);
+    
+    const resetBtn = IconLibrary.createButton('cube', {
+      size: 'sm',
+      tooltip: 'Reset view',
+      onClick: () => {
+        currentSize = 80;
+        updatePreview();
+      }
+    });
+    controls.appendChild(resetBtn);
+  }
+
+  // Update Preview
+  function updatePreview() {
+    const preview = document.getElementById('viewportPreview');
+    preview.innerHTML = '';
+    
+    const icon = IconLibrary.create(currentIcon, {
+      size: currentSize,
+      color: '#c8d0d8'
+    });
+    preview.appendChild(icon);
+    
+    const sizeLabel = document.getElementById('sizeLabel');
+    if (sizeLabel) sizeLabel.textContent = `${currentSize}px`;
+    
+    document.getElementById('propSize').textContent = `${currentSize}px`;
+  }
+
+  // Select Icon
+  function selectIcon(name) {
+    currentIcon = name;
+    
+    updatePreview();
+    document.getElementById('viewportName').textContent = name;
+    
+    document.getElementById('propName').textContent = name;
+    document.getElementById('propColor').textContent = '#c8d0d8';
+    document.getElementById('propStatus').textContent = 'Loaded';
+    
+    const tagsContainer = document.getElementById('propTags');
+    tagsContainer.innerHTML = `<span class="property-tag">game-engine</span>
+                               <span class="property-tag">${name}</span>`;
+    
+    document.getElementById('statusText').textContent = `Selected: ${name}`;
+    
+    const statusIcon = document.getElementById('statusIcon');
+    statusIcon.innerHTML = '';
+    const statusIconEl = IconLibrary.create(name, {
+      size: 14,
+      color: 'var(--accent-green)'
+    });
+    statusIcon.appendChild(statusIconEl);
+    
+    document.querySelectorAll('.toolbar-icon').forEach(el => {
+      el.classList.remove('active');
+    });
+  }
+
+  // Init
+  buildToolbar();
+  buildIconGrid();
+  buildViewportControls();
+  selectIcon(ALL_ICONS[0] || 'cube');
+
+  // Preload all icons in background
+  setTimeout(() => {
+    IconLibrary.preload(ALL_ICONS.slice(5));
+  }, 500);
+
+  window.selectIcon = selectIcon;
+  
+  console.log('🚀 Game Engine Icon Library ready!');
+  console.log(`📦 ${ALL_ICONS.length} icons available`);
+});
 </script>
 
 </body>
