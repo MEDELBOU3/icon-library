@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Chain -->
+  <line x1="12" y1="44" x2="28" y2="32" stroke="#4A90D9" stroke-width="3"/>
+  <line x1="28" y1="32" x2="40" y2="28" stroke="#4A90D9" stroke-width="3"/>
+  <line x1="40" y1="28" x2="50" y2="18" stroke="#4A90D9" stroke-width="3"/>
+  <!-- Joints -->
+  <circle cx="12" cy="44" r="3.5" fill="#FF6B35"/>
+  <circle cx="28" cy="32" r="3.5" fill="#FF6B35"/>
+  <circle cx="40" cy="28" r="3.5" fill="#FF6B35"/>
+  <circle cx="50" cy="18" r="4" fill="#FF6B35"/>
+  <!-- Target marker -->
+  <circle cx="54" cy="14" r="6" fill="none" stroke="#FF6B35" stroke-width="2"/>
+  <line x1="48" y1="14" x2="60" y2="14" stroke="#FF6B35" stroke-width="1.5"/>
+  <line x1="54" y1="8" x2="54" y2="20" stroke="#FF6B35" stroke-width="1.5"/>
+  <!-- Mapping arrows -->
+  <path d="M15 48 C20 52, 35 52, 42 46" fill="none" stroke="#2C5F8A" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <polygon points="42,46 38,44 40,48" fill="#2C5F8A"/>
+</svg>
