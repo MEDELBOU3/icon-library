@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Engine Icon Library</title>
-    
-    <!-- Load separate CSS and JS files -->
     <link rel="stylesheet" href="icon-library.css">
     <script src="icon-library.js"></script>
 </head>
@@ -104,15 +102,11 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // The IconLibrary is loaded from icon-library.js
-    // All icons are auto-detected from the icons/ folder
-    // No hardcoded icon names needed!
-    
     const IconLibrary = window.IconLibrary;
     
-    // Wait for icons to be discovered
+    // Wait for icons to be auto-discovered
     IconLibrary.onReady(function(iconNames) {
-        console.log(`✅ ${iconNames.length} icons discovered`);
+        console.log(`✅ ${iconNames.length} icons auto-discovered`);
         initApp(iconNames);
     });
     
@@ -122,6 +116,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         function buildToolbar() {
             const toolbar = document.getElementById('toolbar');
+            
+            // Only show icons that exist
             const groups = [
                 { label: 'Transform', icons: ['transform', 'translate', 'rotate', 'scale', 'snap'] },
                 { label: 'View', icons: ['grid', 'camera', 'orthographic', 'perspective'] },
@@ -153,14 +149,26 @@ document.addEventListener('DOMContentLoaded', function() {
             spacer.className = 'toolbar-spacer';
             toolbar.appendChild(spacer);
             
-            const actionIcons = ['import', 'export', 'preferences'];
-            actionIcons.filter(name => ALL_ICONS.includes(name)).forEach(name => {
-                const btn = IconLibrary.createToolbarIcon(name, {
-                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
-                    onClick: () => selectIcon(name)
+            // Show any remaining icons as quick actions
+            const remaining = ALL_ICONS.filter(name => 
+                !['transform', 'translate', 'rotate', 'scale', 'snap', 'grid', 
+                  'camera', 'orthographic', 'perspective', 'select', 'marquee', 
+                  'sculpt', 'brush', 'measure'].includes(name)
+            ).slice(0, 10);
+            
+            if (remaining.length > 0) {
+                const sep = document.createElement('div');
+                sep.className = 'toolbar-separator';
+                toolbar.appendChild(sep);
+                
+                remaining.forEach(name => {
+                    const btn = IconLibrary.createToolbarIcon(name, {
+                        tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+                        onClick: () => selectIcon(name)
+                    });
+                    toolbar.appendChild(btn);
                 });
-                toolbar.appendChild(btn);
-            });
+            }
         }
         
         function buildIconGrid() {
@@ -200,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         function buildViewportControls() {
             const controls = document.getElementById('viewportControls');
-            const sizes = [16, 24, 32, 48, 64, 80, 100, 120];
+            const sizes = [16, 24, 32, 48, 64, 80, 100, 120, 150, 200];
             
             const minusBtn = IconLibrary.createButton('minus', {
                 size: 'sm',
@@ -298,11 +306,12 @@ document.addEventListener('DOMContentLoaded', function() {
         buildToolbar();
         buildIconGrid();
         buildViewportControls();
-        selectIcon(ALL_ICONS[0] || 'cube');
+        if (ALL_ICONS.length > 0) {
+            selectIcon(ALL_ICONS[0]);
+        }
         
         window.selectIcon = selectIcon;
-        console.log('🚀 Game Engine Icon Library ready!');
-        console.log(`📦 ${ALL_ICONS.length} icons auto-discovered`);
+        console.log('🚀 App ready with auto-discovered icons!');
     }
 });
 </script>
