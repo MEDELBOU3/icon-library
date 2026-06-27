@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Dotted curve path -->
+  <path d="M8 52 Q20 40, 24 32 Q30 20, 38 16 Q46 12, 52 18" fill="none" stroke="#4A90D9" stroke-width="2" stroke-dasharray="4,4"/>
+  <!-- Directional arrows along path -->
+  <polygon points="18,46 15,44 17,48" fill="#FF6B35"/>
+  <polygon points="30,28 27,26 29,30" fill="#FF6B35"/>
+  <polygon points="44,18 41,16 43,20" fill="#FF6B35"/>
+  <!-- Keyframe points -->
+  <circle cx="8" cy="52" r="3.5" fill="#FF6B35"/>
+  <circle cx="24" cy="32" r="3" fill="#FF6B35"/>
+  <circle cx="38" cy="16" r="3" fill="#FF6B35"/>
+  <circle cx="52" cy="18" r="3.5" fill="#FF6B35"/>
+  <!-- Inner dots -->
+  <circle cx="8" cy="52" r="1.5" fill="white"/>
+  <circle cx="24" cy="32" r="1.2" fill="white"/>
+  <circle cx="38" cy="16" r="1.2" fill="white"/>
+  <circle cx="52" cy="18" r="1.5" fill="white"/>
+  <!-- Tangent handles -->
+  <line x1="8" y1="52" x2="14" y2="48" stroke="#2C5F8A" stroke-width="1"/>
+  <line x1="52" y1="18" x2="56" y2="22" stroke="#2C5F8A" stroke-width="1"/>
+</svg>
