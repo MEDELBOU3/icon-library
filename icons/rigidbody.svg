@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Solid sphere -->
+  <circle cx="32" cy="28" r="14" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <!-- Collision arrows -->
+  <line x1="18" y1="40" x2="10" y2="48" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="46" y1="40" x2="54" y2="48" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="16" y1="45" x2="12" y2="50" stroke="#FF6B35" stroke-width="2" stroke-linecap="round"/>
+  <line x1="48" y1="45" x2="52" y2="50" stroke="#FF6B35" stroke-width="2" stroke-linecap="round"/>
+  <!-- Arrow tips -->
+  <polygon points="8,48 12,46 12,50" fill="#FF6B35"/>
+  <polygon points="56,48 52,46 52,50" fill="#FF6B35"/>
+  <!-- Motion indicator -->
+  <path d="M22 20 L28 20 L26 16 L30 20 L26 24" fill="none" stroke="#2C5F8A" stroke-width="1.5"/>
+</svg>
