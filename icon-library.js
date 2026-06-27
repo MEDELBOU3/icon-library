@@ -32,14 +32,24 @@
       return `${url.origin}${basePath}`;
     }
     
-    return window.location.origin + '/icons/';
+    return window.location.origin + '/icon-library/icons/';
+  }
+
+  // ========================================
+  // SIMPLE FALLBACK SVG
+  // ========================================
+  function getFallbackSVG() {
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="1.5"/>
+    </svg>`;
   }
 
   // ========================================
   // REGISTER ALL ICONS
   // ========================================
   function registerAllIcons() {
-    // These will be loaded from the icons folder
     const iconNames = [
       'transform', 'translate', 'rotate', 'scale', 'snap', 'grid',
       'cube', 'sphere', 'cylinder', 'plane', 'torus',
@@ -52,7 +62,6 @@
     ];
     
     iconNames.forEach(name => {
-      // Register placeholder - will be loaded on demand
       ICON_REGISTRY.set(name, {
         svg: null,
         metadata: {
@@ -64,7 +73,11 @@
     });
   }
 
+  // ========================================
+  // LOAD ICON FROM CDN
+  // ========================================
   function loadIconFromCDN(name) {
+    // Prevent multiple loads
     if (ICON_LOADING.has(name)) return;
     if (ICON_CACHE.has(name)) return;
     
@@ -74,10 +87,15 @@
     
     fetch(url)
       .then(response => {
-        if (!response.ok) throw new Error(`Failed to load icon: ${name}`);
+        if (!response.ok) throw new Error(`Failed to load icon: ${name} (${response.status})`);
         return response.text();
       })
       .then(svg => {
+        // Validate it's actually SVG
+        if (!svg.includes('<svg')) {
+          throw new Error(`Invalid SVG content for: ${name}`);
+        }
+        
         ICON_REGISTRY.set(name, {
           svg: svg,
           metadata: { category: 'game-engine', tags: [], loaded: true }
@@ -88,20 +106,35 @@
         document.dispatchEvent(new CustomEvent('iconLoaded', { 
           detail: { name, svg } 
         }));
+        
+        console.log(`✅ Icon loaded: ${name}`);
       })
       .catch(error => {
-        console.error(`Failed to load icon: ${name}`, error);
+        console.error(`❌ Failed to load icon: ${name}`, error);
         ICON_LOADING.delete(name);
+        
+        // Set a placeholder so we don't keep trying
+        const fallback = getFallbackSVG();
+        ICON_REGISTRY.set(name, {
+          svg: fallback,
+          metadata: { category: 'game-engine', tags: [], loaded: true }
+        });
+        ICON_CACHE.set(name, fallback);
       });
   }
 
+  // ========================================
+  // GET ICON - FIXED RECURSION
+  // ========================================
   function getIcon(name, options = {}) {
     const iconName = name || CONFIG.fallbackIcon;
     
+    // Check cache first
     if (ICON_CACHE.has(iconName)) {
       return ICON_CACHE.get(iconName);
     }
     
+    // Check registry for loaded icon
     if (ICON_REGISTRY.has(iconName)) {
       const data = ICON_REGISTRY.get(iconName);
       if (data.svg) {
@@ -110,26 +143,24 @@
       }
     }
     
-    // Load from CDN if not loaded
-    if (!ICON_LOADING.has(iconName)) {
+    // Try to load from CDN (only if not already loading)
+    if (!ICON_LOADING.has(iconName) && iconName !== CONFIG.fallbackIcon) {
       loadIconFromCDN(iconName);
     }
     
-    // Return fallback while loading
+    // Return fallback for loading state
     if (ICON_CACHE.has(CONFIG.fallbackIcon)) {
       return ICON_CACHE.get(CONFIG.fallbackIcon);
     }
     
-    // Simple fallback SVG
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-      <rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none"/>
-      <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="1.5"/>
-    </svg>`;
+    // Last resort: generate fallback
+    const fallback = getFallbackSVG();
+    ICON_CACHE.set(CONFIG.fallbackIcon, fallback);
+    return fallback;
   }
 
   // ========================================
-  // PUBLIC API
+  // CREATE ICON ELEMENT
   // ========================================
   function createIcon(name, options = {}) {
     const {
@@ -156,11 +187,14 @@
     if (ariaLabel) container.setAttribute('aria-label', ariaLabel);
     if (onClick) container.addEventListener('click', onClick);
 
+    // Get icon SVG
     let svgContent = getIcon(name, options);
     
+    // If icon is loading or not loaded yet, show loading state
     if (ICON_LOADING.has(name)) {
       container.classList.add('icon-loading');
       
+      // Listen for load event
       const loadHandler = (e) => {
         if (e.detail.name === name) {
           container.innerHTML = e.detail.svg;
@@ -177,6 +211,9 @@
     return container;
   }
 
+  // ========================================
+  // CREATE TOOLBAR ICON
+  // ========================================
   function createToolbarIcon(name, options = {}) {
     const {
       active = false,
@@ -201,6 +238,9 @@
     return button;
   }
 
+  // ========================================
+  // CREATE BUTTON
+  // ========================================
   function createButton(name, options = {}) {
     const {
       size = 'md',
@@ -219,8 +259,9 @@
     if (tooltip) button.setAttribute('title', tooltip);
     if (onClick) button.addEventListener('click', onClick);
 
+    const iconSize = size === 'xs' ? 12 : size === 'sm' ? 14 : size === 'lg' ? 20 : 16;
     const icon = createIcon(name, {
-      size: size === 'xs' ? 12 : size === 'sm' ? 14 : size === 'lg' ? 20 : 16,
+      size: iconSize,
       color: 'currentColor'
     });
     
@@ -237,6 +278,9 @@
     return button;
   }
 
+  // ========================================
+  // PRELOAD ICONS
+  // ========================================
   function preloadIcons(iconNames) {
     iconNames.forEach(name => {
       if (!ICON_CACHE.has(name) && !ICON_LOADING.has(name)) {
@@ -245,6 +289,9 @@
     });
   }
 
+  // ========================================
+  // CONFIGURE
+  // ========================================
   function configure(config) {
     Object.assign(CONFIG, config);
   }
@@ -263,6 +310,11 @@
 
   // Register icons on load
   registerAllIcons();
+
+  // Preload some essential icons
+  setTimeout(() => {
+    preloadIcons(['cube', 'transform', 'translate', 'rotate', 'scale']);
+  }, 100);
 
   // Expose globally
   if (typeof module !== 'undefined' && module.exports) {
