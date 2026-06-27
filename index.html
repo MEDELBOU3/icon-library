@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Icon Library - Professional Desktop Editor</title>
+    <title>Game Engine Icon Library</title>
     
     <!-- Load Icon Library -->
     <link rel="stylesheet" href="icon-library.css">
     <script src="icon-library.js"></script>
     
     <style>
-        /* Professional desktop editor theme */
+        /* Professional Game Engine Theme */
         :root {
             --bg-primary: #14181f;
             --bg-secondary: #1a2029;
             --bg-tertiary: #222a33;
+            --bg-panel: #1e2530;
             --text-primary: #c8d0d8;
             --text-secondary: #8a929a;
+            --text-muted: #4a525a;
             --border-color: #2a323a;
+            --border-light: #3a424a;
             --accent-blue: #4a9eff;
             --accent-green: #54d98c;
+            --accent-orange: #f0a030;
+            --accent-red: #e06050;
         }
         
         * {
@@ -29,7 +34,7 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             height: 100vh;
@@ -38,31 +43,39 @@
             -webkit-font-smoothing: antialiased;
         }
         
+        /* ========================================
+           APP LAYOUT - Professional Editor Style
+           ======================================== */
         .app {
             display: grid;
-            grid-template-rows: 32px 40px 1fr 24px;
+            grid-template-rows: 32px 44px 1fr 24px;
             height: 100vh;
             background: var(--bg-primary);
         }
         
-        /* Top Menu */
+        /* ========================================
+           MENU BAR
+           ======================================== */
         .menu-bar {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 0 8px;
+            gap: 2px;
+            padding: 0 10px;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
         }
         
         .menu-item {
-            padding: 4px 10px;
+            padding: 4px 12px;
             border: none;
             background: transparent;
             color: var(--text-secondary);
             font-size: 12px;
             cursor: pointer;
             border-radius: 0;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: all 0.15s ease;
         }
         
         .menu-item:hover {
@@ -70,7 +83,34 @@
             background: rgba(200, 208, 216, 0.06);
         }
         
-        /* Toolbar */
+        .menu-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-brand .brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 0;
+            background: var(--accent-blue);
+        }
+        
+        .menu-separator {
+            width: 1px;
+            height: 20px;
+            background: var(--border-color);
+            margin: 0 4px;
+        }
+        
+        /* ========================================
+           TOOLBAR
+           ======================================== */
         .toolbar {
             display: flex;
             align-items: center;
@@ -80,6 +120,22 @@
             border-bottom: 1px solid var(--border-color);
         }
         
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 4px;
+        }
+        
+        .toolbar-group-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 0 4px;
+            font-weight: 600;
+        }
+        
         .toolbar-separator {
             width: 1px;
             height: 24px;
@@ -87,7 +143,13 @@
             margin: 0 4px;
         }
         
-        /* Workspace */
+        .toolbar-spacer {
+            flex: 1;
+        }
+        
+        /* ========================================
+           WORKSPACE
+           ======================================== */
         .workspace {
             display: grid;
             grid-template-columns: 220px 1fr 240px;
@@ -99,70 +161,46 @@
         
         .panel {
             background: var(--bg-secondary);
-            padding: 8px;
-            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
         
         .panel-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 4px 0;
-            margin-bottom: 8px;
+            padding: 6px 10px;
+            background: var(--bg-tertiary);
             border-bottom: 1px solid var(--border-color);
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-secondary);
+            min-height: 28px;
+            flex-shrink: 0;
         }
         
-        .viewport {
-            background: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .viewport-overlay {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
+        .panel-header-actions {
             display: flex;
             gap: 4px;
-            padding: 4px 8px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--border-color);
         }
         
-        /* Status Bar */
-        .status-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8px;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            font-size: 11px;
-            color: var(--text-secondary);
+        .panel-content {
+            flex: 1;
+            overflow: auto;
+            padding: 8px;
         }
         
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        /* Icon picker grid */
-        .icon-picker-grid {
+        /* Left Panel - Icon Browser */
+        .icon-browser-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 4px;
         }
         
-        .icon-picker-item {
+        .icon-browser-item {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -175,24 +213,219 @@
             border-radius: 0;
             font-size: 9px;
             transition: all 0.15s ease;
+            font-family: inherit;
         }
         
-        .icon-picker-item:hover {
+        .icon-browser-item:hover {
             color: var(--text-primary);
             background: rgba(200, 208, 216, 0.06);
             border-color: rgba(200, 208, 216, 0.08);
         }
         
-        .icon-picker-item.active {
+        .icon-browser-item.active {
             color: var(--accent-blue);
             background: rgba(74, 158, 255, 0.1);
             border-color: rgba(74, 158, 255, 0.2);
         }
         
-        /* Scrollbar */
+        .icon-browser-item .icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .icon-browser-item span {
+            font-size: 8px;
+            line-height: 1;
+            text-align: center;
+            word-break: break-all;
+            color: var(--text-muted);
+        }
+        
+        .icon-browser-item:hover span {
+            color: var(--text-secondary);
+        }
+        
+        .icon-browser-item.active span {
+            color: var(--accent-blue);
+        }
+        
+        /* Viewport */
+        .viewport {
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .viewport-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        
+        .viewport-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 1;
+        }
+        
+        .viewport-icon-preview {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            background: rgba(26, 32, 41, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+        }
+        
+        .viewport-icon-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 16px;
+            border: 1px solid var(--border-color);
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+        
+        .viewport-controls {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+        }
+        
+        .viewport-controls .size-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 0 8px;
+            min-width: 36px;
+            text-align: center;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+        
+        /* Right Panel - Properties */
+        .property-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+        }
+        
+        .property-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .property-value {
+            color: var(--text-primary);
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 11px;
+        }
+        
+        .property-value.accent {
+            color: var(--accent-blue);
+        }
+        
+        .property-value.green {
+            color: var(--accent-green);
+        }
+        
+        .property-section {
+            margin-top: 12px;
+        }
+        
+        .property-section-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .property-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .property-tag {
+            font-size: 9px;
+            padding: 2px 8px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 0;
+        }
+        
+        /* ========================================
+           STATUS BAR
+           ======================================== */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 0;
+            background: var(--accent-green);
+        }
+        
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         
         ::-webkit-scrollbar-track {
@@ -201,229 +434,436 @@
         
         ::-webkit-scrollbar-thumb {
             background: var(--border-color);
+            border-radius: 0;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: #3a424a;
+            background: var(--border-light);
         }
         
-        /* Loading */
-        .icon-loading {
-            animation: pulse 1.5s ease-in-out infinite;
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1024px) {
+            .workspace {
+                grid-template-columns: 180px 1fr 200px;
+            }
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+        @media (max-width: 768px) {
+            .workspace {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
+            }
+            
+            .panel {
+                max-height: 200px;
+            }
+            
+            .viewport {
+                min-height: 300px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="app">
-    <!-- Menu Bar -->
+    <!-- ========================================
+         MENU BAR
+         ======================================== -->
     <div class="menu-bar">
+        <div class="menu-brand">
+            <span class="brand-dot"></span>
+            Icon Library
+        </div>
+        <div class="menu-separator"></div>
         <button class="menu-item">File</button>
         <button class="menu-item">Edit</button>
         <button class="menu-item">View</button>
         <button class="menu-item">Tools</button>
+        <button class="menu-item">Window</button>
         <button class="menu-item">Help</button>
     </div>
     
-    <!-- Toolbar -->
-    <div class="toolbar" id="toolbar"></div>
+    <!-- ========================================
+         TOOLBAR
+         ======================================== -->
+    <div class="toolbar" id="toolbar">
+        <!-- Transform Tools -->
+        <div class="toolbar-group">
+            <span class="toolbar-group-label">Transform</span>
+            <div id="toolbarTransform"></div>
+        </div>
+        
+        <div class="toolbar-separator"></div>
+        
+        <!-- Viewport Tools -->
+        <div class="toolbar-group">
+            <span class="toolbar-group-label">View</span>
+            <div id="toolbarView"></div>
+        </div>
+        
+        <div class="toolbar-separator"></div>
+        
+        <!-- Tools -->
+        <div class="toolbar-group">
+            <span class="toolbar-group-label">Tools</span>
+            <div id="toolbarTools"></div>
+        </div>
+        
+        <div class="toolbar-spacer"></div>
+        
+        <!-- Quick Actions -->
+        <div class="toolbar-group">
+            <div id="toolbarActions"></div>
+        </div>
+    </div>
     
-    <!-- Workspace -->
+    <!-- ========================================
+         WORKSPACE
+         ======================================== -->
     <div class="workspace">
-        <!-- Left Panel - Icon Browser -->
+        <!-- Left Panel: Icon Browser -->
         <div class="panel">
             <div class="panel-header">
                 <span>Icon Browser</span>
-                <span id="iconCount"></span>
+                <span id="iconCount" style="font-size: 10px; font-weight: 400;">0 icons</span>
             </div>
-            <div id="iconGrid" class="icon-picker-grid"></div>
+            <div class="panel-content">
+                <div id="iconGrid" class="icon-browser-grid"></div>
+            </div>
         </div>
         
-        <!-- Viewport -->
-        <div class="viewport" id="viewport">
-            <div id="previewIcon" style="width: 80px; height: 80px; color: #c8d0d8;"></div>
-            <div class="viewport-overlay" id="viewportControls"></div>
+        <!-- Center: Viewport -->
+        <div class="viewport">
+            <div class="viewport-grid"></div>
+            
+            <div class="viewport-center">
+                <div class="viewport-icon-preview" id="viewportPreview">
+                    <!-- Icon preview will be injected here -->
+                </div>
+                <div class="viewport-icon-name" id="viewportName">select an icon</div>
+            </div>
+            
+            <div class="viewport-controls" id="viewportControls">
+                <!-- Controls injected by JavaScript -->
+            </div>
         </div>
         
-        <!-- Right Panel - Properties -->
+        <!-- Right Panel: Properties -->
         <div class="panel">
             <div class="panel-header">
                 <span>Properties</span>
+                <div class="panel-header-actions">
+                    <!-- Small actions -->
+                </div>
             </div>
-            <div id="properties" style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
-                <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border-color);">
-                    <span style="color: var(--text-secondary);">Name</span>
-                    <span id="propName">home</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border-color);">
-                    <span style="color: var(--text-secondary);">Size</span>
-                    <span id="propSize">20px</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border-color);">
-                    <span style="color: var(--text-secondary);">Color</span>
-                    <span id="propColor">#c8d0d8</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 4px 0;">
-                    <span style="color: var(--text-secondary);">Status</span>
-                    <span id="propStatus" style="color: var(--accent-green);">Loaded</span>
+            <div class="panel-content">
+                <div id="properties">
+                    <div class="property-row">
+                        <span class="property-label">Name</span>
+                        <span class="property-value" id="propName">—</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Size</span>
+                        <span class="property-value" id="propSize">—</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Color</span>
+                        <span class="property-value" id="propColor">—</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Status</span>
+                        <span class="property-value green" id="propStatus">Ready</span>
+                    </div>
+                    
+                    <div class="property-section">
+                        <div class="property-section-title">Tags</div>
+                        <div class="property-tags" id="propTags">
+                            <span class="property-tag">No tags</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Status Bar -->
+    <!-- ========================================
+         STATUS BAR
+         ======================================== -->
     <div class="status-bar">
-        <div class="status-item">
-            <span id="statusIcon"></span>
-            <span id="statusText">Ready</span>
+        <div class="status-left">
+            <div class="status-item">
+                <span class="status-dot"></span>
+                <span id="statusText">Ready</span>
+            </div>
+            <div class="status-item">
+                <span id="statusIcon"></span>
+            </div>
         </div>
-        <div class="status-item">
-            <span id="statusCount">0 icons loaded</span>
-        </div>
-        <div class="status-item">
-            <span>v1.0.0</span>
+        <div class="status-right">
+            <div class="status-item">
+                <span id="statusCount">0 icons</span>
+            </div>
+            <div class="status-item">
+                <span>v1.0.0</span>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- ========================================
+     APPLICATION SCRIPT
+     ======================================== -->
 <script>
-    // Demo application
     document.addEventListener('DOMContentLoaded', function() {
-        // List of icons to display
-        const iconList = ['home', 'user', 'settings', 'search', 'plus', 'minus', 'trash', 'folder', 'file', 'play', 'pause', 'stop'];
+        // ========================================
+        // ICON LIST - All available icons
+        // ========================================
+        const ICON_CATEGORIES = {
+            transform: ['transform', 'translate', 'rotate', 'scale', 'snap', 'grid'],
+            primitives: ['cube', 'sphere', 'cylinder', 'plane', 'torus'],
+            modeling: ['sculpt', 'extrude', 'bevel', 'knife'],
+            animation: ['timeline', 'keyframe', 'curve', 'dopesheet'],
+            viewport: ['camera', 'orthographic', 'perspective'],
+            materials: ['material', 'texture', 'uv'],
+            tools: ['brush', 'eyedropper', 'measure', 'pivot', 'select', 'marquee'],
+            assets: ['asset', 'import', 'export', 'preferences']
+        };
         
-        // Create toolbar
-        const toolbar = document.getElementById('toolbar');
-        const toolIcons = ['home', 'search', 'folder', 'file', 'settings'];
+        // Flatten all icons
+        const ALL_ICONS = Object.values(ICON_CATEGORIES).flat();
+        const ICON_TAGS = {
+            transform: ['transform', 'move', 'gizmo'],
+            translate: ['move', 'position', 'gizmo'],
+            rotate: ['rotation', 'spin', 'gizmo'],
+            scale: ['size', 'resize', 'gizmo'],
+            snap: ['snap', 'grid', 'align'],
+            grid: ['grid', 'snap', 'reference'],
+            cube: ['cube', 'box', 'primitive'],
+            sphere: ['sphere', 'ball', 'primitive'],
+            cylinder: ['cylinder', 'tube', 'primitive'],
+            plane: ['plane', 'flat', 'primitive'],
+            torus: ['torus', 'donut', 'ring'],
+            sculpt: ['sculpt', 'clay', 'bump'],
+            extrude: ['extrude', 'push', 'pull'],
+            bevel: ['bevel', 'chamfer', 'edge'],
+            knife: ['knife', 'cut', 'slice'],
+            timeline: ['timeline', 'animation', 'sequence'],
+            keyframe: ['keyframe', 'animation', 'frame'],
+            curve: ['curve', 'spline', 'bezier'],
+            dopesheet: ['dopesheet', 'animation', 'timing'],
+            camera: ['camera', 'view', 'render'],
+            orthographic: ['orthographic', 'ortho', '2d'],
+            perspective: ['perspective', '3d', 'view'],
+            material: ['material', 'shader', 'surface'],
+            texture: ['texture', 'uv', 'image'],
+            uv: ['uv', 'unwrap', 'texture'],
+            brush: ['brush', 'paint', 'sculpt'],
+            eyedropper: ['eyedropper', 'pick', 'color'],
+            measure: ['measure', 'ruler', 'distance'],
+            pivot: ['pivot', 'center', 'origin'],
+            select: ['select', 'choose', 'pick'],
+            marquee: ['marquee', 'selection', 'box'],
+            asset: ['asset', 'file', 'content'],
+            import: ['import', 'load', 'open'],
+            export: ['export', 'save', 'build'],
+            preferences: ['preferences', 'settings', 'options']
+        };
         
-        toolIcons.forEach(name => {
-            const btn = IconLibrary.createToolbarIcon(name, {
-                tooltip: name.charAt(0).toUpperCase() + name.slice(1),
-                onClick: () => selectIcon(name)
-            });
-            toolbar.appendChild(btn);
-            
-            // Add separator after some icons
-            if (name === 'folder') {
-                const sep = document.createElement('div');
-                sep.className = 'toolbar-separator';
-                toolbar.appendChild(sep);
-            }
-        });
-        
-        // Create icon grid
-        const grid = document.getElementById('iconGrid');
-        
-        iconList.forEach(name => {
-            const item = document.createElement('button');
-            item.className = 'icon-picker-item';
-            
-            const icon = IconLibrary.create(name, {
-                size: 24,
-                color: 'currentColor'
-            });
-            
-            const label = document.createElement('span');
-            label.textContent = name;
-            
-            item.appendChild(icon);
-            item.appendChild(label);
-            
-            item.addEventListener('click', () => {
-                selectIcon(name);
-                document.querySelectorAll('.icon-picker-item').forEach(el => {
-                    el.classList.remove('active');
-                });
-                item.classList.add('active');
-            });
-            
-            grid.appendChild(item);
-        });
-        
-        // Update icon count
-        document.getElementById('iconCount').textContent = `${iconList.length} icons`;
-        document.getElementById('statusCount').textContent = `${iconList.length} icons loaded`;
-        
-        // Select first icon by default
-        selectIcon(iconList[0]);
-        
-        // Create viewport controls
-        const controls = document.getElementById('viewportControls');
-        
-        // Size controls
-        const sizes = [16, 20, 24, 32, 48, 64, 80];
+        // ========================================
+        // STATE
+        // ========================================
+        let currentIcon = ALL_ICONS[0];
         let currentSize = 80;
         
-        const sizeBtn = IconLibrary.createButton('minus', {
-            size: 'sm',
-            tooltip: 'Decrease size',
-            onClick: () => {
-                const idx = sizes.indexOf(currentSize);
-                if (idx > 0) {
-                    currentSize = sizes[idx - 1];
-                    updatePreview();
-                }
-            }
-        });
-        controls.appendChild(sizeBtn);
-        
-        const sizeDisplay = document.createElement('span');
-        sizeDisplay.style.fontSize = '11px';
-        sizeDisplay.style.padding = '0 8px';
-        sizeDisplay.style.color = 'var(--text-secondary)';
-        sizeDisplay.textContent = '80px';
-        controls.appendChild(sizeDisplay);
-        
-        const sizeBtn2 = IconLibrary.createButton('plus', {
-            size: 'sm',
-            tooltip: 'Increase size',
-            onClick: () => {
-                const idx = sizes.indexOf(currentSize);
-                if (idx < sizes.length - 1) {
-                    currentSize = sizes[idx + 1];
-                    updatePreview();
-                }
-            }
-        });
-        controls.appendChild(sizeBtn2);
-        
-        // Function to update preview
-        function updatePreview() {
-            const preview = document.getElementById('previewIcon');
-            const selectedName = document.getElementById('propName').textContent;
+        // ========================================
+        // BUILD TOOLBAR
+        // ========================================
+        function buildToolbar() {
+            // Transform tools
+            const transformIcons = ['transform', 'translate', 'rotate', 'scale', 'snap'];
+            const transformContainer = document.getElementById('toolbarTransform');
+            transformIcons.forEach(name => {
+                const btn = IconLibrary.createToolbarIcon(name, {
+                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+                    onClick: () => selectIcon(name)
+                });
+                transformContainer.appendChild(btn);
+            });
             
+            // View tools
+            const viewIcons = ['grid', 'camera', 'orthographic', 'perspective'];
+            const viewContainer = document.getElementById('toolbarView');
+            viewIcons.forEach(name => {
+                const btn = IconLibrary.createToolbarIcon(name, {
+                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+                    onClick: () => selectIcon(name)
+                });
+                viewContainer.appendChild(btn);
+            });
+            
+            // Tools
+            const toolsIcons = ['select', 'marquee', 'sculpt', 'brush', 'measure'];
+            const toolsContainer = document.getElementById('toolbarTools');
+            toolsIcons.forEach(name => {
+                const btn = IconLibrary.createToolbarIcon(name, {
+                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+                    onClick: () => selectIcon(name)
+                });
+                toolsContainer.appendChild(btn);
+            });
+            
+            // Quick actions
+            const actionsContainer = document.getElementById('toolbarActions');
+            const actionIcons = ['import', 'export', 'preferences'];
+            actionIcons.forEach(name => {
+                const btn = IconLibrary.createToolbarIcon(name, {
+                    tooltip: name.charAt(0).toUpperCase() + name.slice(1),
+                    onClick: () => selectIcon(name)
+                });
+                actionsContainer.appendChild(btn);
+            });
+        }
+        
+        // ========================================
+        // BUILD ICON GRID
+        // ========================================
+        function buildIconGrid() {
+            const grid = document.getElementById('iconGrid');
+            grid.innerHTML = '';
+            
+            ALL_ICONS.forEach(name => {
+                const item = document.createElement('button');
+                item.className = 'icon-browser-item';
+                if (name === currentIcon) item.classList.add('active');
+                
+                const icon = IconLibrary.create(name, {
+                    size: 24,
+                    color: 'currentColor'
+                });
+                
+                const label = document.createElement('span');
+                label.textContent = name;
+                
+                item.appendChild(icon);
+                item.appendChild(label);
+                
+                item.addEventListener('click', () => {
+                    selectIcon(name);
+                    document.querySelectorAll('.icon-browser-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                });
+                
+                grid.appendChild(item);
+            });
+            
+            document.getElementById('iconCount').textContent = `${ALL_ICONS.length} icons`;
+            document.getElementById('statusCount').textContent = `${ALL_ICONS.length} icons`;
+        }
+        
+        // ========================================
+        // BUILD VIEWPORT CONTROLS
+        // ========================================
+        function buildViewportControls() {
+            const controls = document.getElementById('viewportControls');
+            
+            // Size buttons
+            const sizes = [16, 24, 32, 48, 64, 80, 100, 120];
+            
+            const minusBtn = IconLibrary.createButton('minus', {
+                size: 'sm',
+                tooltip: 'Decrease size',
+                onClick: () => {
+                    const idx = sizes.indexOf(currentSize);
+                    if (idx > 0) {
+                        currentSize = sizes[idx - 1];
+                        updatePreview();
+                    }
+                }
+            });
+            controls.appendChild(minusBtn);
+            
+            const sizeLabel = document.createElement('span');
+            sizeLabel.className = 'size-label';
+            sizeLabel.textContent = `${currentSize}px`;
+            sizeLabel.id = 'sizeLabel';
+            controls.appendChild(sizeLabel);
+            
+            const plusBtn = IconLibrary.createButton('plus', {
+                size: 'sm',
+                tooltip: 'Increase size',
+                onClick: () => {
+                    const idx = sizes.indexOf(currentSize);
+                    if (idx < sizes.length - 1) {
+                        currentSize = sizes[idx + 1];
+                        updatePreview();
+                    }
+                }
+            });
+            controls.appendChild(plusBtn);
+            
+            // Separator
+            const sep = document.createElement('span');
+            sep.style.width = '1px';
+            sep.style.height = '16px';
+            sep.style.background = 'var(--border-color)';
+            sep.style.margin = '0 4px';
+            controls.appendChild(sep);
+            
+            // Reset view button
+            const resetBtn = IconLibrary.createButton('cube', {
+                size: 'sm',
+                tooltip: 'Reset view',
+                onClick: () => {
+                    currentSize = 80;
+                    updatePreview();
+                }
+            });
+            controls.appendChild(resetBtn);
+        }
+        
+        // ========================================
+        // UPDATE PREVIEW
+        // ========================================
+        function updatePreview() {
+            const preview = document.getElementById('viewportPreview');
             preview.innerHTML = '';
-            const icon = IconLibrary.create(selectedName, {
+            
+            const icon = IconLibrary.create(currentIcon, {
                 size: currentSize,
                 color: '#c8d0d8'
             });
             preview.appendChild(icon);
             
-            sizeDisplay.textContent = `${currentSize}px`;
+            document.getElementById('sizeLabel').textContent = `${currentSize}px`;
             document.getElementById('propSize').textContent = `${currentSize}px`;
         }
         
-        // Select icon function
+        // ========================================
+        // SELECT ICON
+        // ========================================
         function selectIcon(name) {
-            // Update preview
-            const preview = document.getElementById('previewIcon');
-            preview.innerHTML = '';
-            const icon = IconLibrary.create(name, {
-                size: currentSize,
-                color: '#c8d0d8'
-            });
-            preview.appendChild(icon);
+            currentIcon = name;
+            
+            // Update viewport
+            updatePreview();
+            document.getElementById('viewportName').textContent = name;
             
             // Update properties
             document.getElementById('propName').textContent = name;
-            document.getElementById('propSize').textContent = `${currentSize}px`;
             document.getElementById('propColor').textContent = '#c8d0d8';
             document.getElementById('propStatus').textContent = 'Loaded';
+            
+            // Update tags
+            const tags = ICON_TAGS[name] || ['untagged'];
+            const tagsContainer = document.getElementById('propTags');
+            tagsContainer.innerHTML = tags.map(tag => 
+                `<span class="property-tag">${tag}</span>`
+            ).join('');
             
             // Update status
             document.getElementById('statusText').textContent = `Selected: ${name}`;
@@ -437,18 +877,26 @@
             });
             statusIcon.appendChild(statusIconEl);
             
-            // Highlight in grid
-            document.querySelectorAll('.icon-picker-item').forEach(el => {
-                const label = el.querySelector('span');
-                if (label && label.textContent === name) {
-                    el.classList.add('active');
-                }
+            // Highlight in toolbar
+            document.querySelectorAll('.toolbar-icon').forEach(el => {
+                el.classList.remove('active');
             });
         }
         
-        // Expose selectIcon globally for toolbar clicks
+        // ========================================
+        // INIT
+        // ========================================
+        buildToolbar();
+        buildIconGrid();
+        buildViewportControls();
+        selectIcon(currentIcon);
+        
+        // Expose for debugging
+        window.IconLibrary = IconLibrary;
         window.selectIcon = selectIcon;
-        window.updatePreview = updatePreview;
+        
+        console.log('🚀 Game Engine Icon Library loaded!');
+        console.log(`📦 ${ALL_ICONS.length} icons available`);
     });
 </script>
 
