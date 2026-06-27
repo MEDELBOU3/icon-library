@@ -1,50 +1,35 @@
-/* Icon Library - Professional Desktop Editor Style */
+/* Icon Library - Game Engine Edition */
 :root {
-  /* Icon Sizes */
   --icon-size-xs: 12px;
   --icon-size-sm: 16px;
   --icon-size-md: 20px;
   --icon-size-lg: 24px;
   --icon-size-xl: 32px;
   
-  /* Icon Colors */
   --icon-color-default: #c8d0d8;
   --icon-color-hover: #e8edf2;
   --icon-color-active: #4a9eff;
   --icon-color-disabled: #4a525a;
   
-  /* Icon Backgrounds */
   --icon-bg-hover: rgba(200, 208, 216, 0.08);
   --icon-bg-active: rgba(74, 158, 255, 0.15);
-  --icon-bg-disabled: transparent;
   
-  /* Icon Borders */
-  --icon-border-hover: rgba(200, 208, 216, 0.15);
-  --icon-border-active: rgba(74, 158, 255, 0.3);
-  
-  /* Sizes */
   --icon-control-height: 28px;
-  --icon-radius-xs: 0px;
-  --icon-radius-sm: 0px;
 }
 
 /* ========================================
-   BASE ICON STYLES
+   BASE ICON
    ======================================== */
-
 .icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  width: var(--icon-size-md);
-  height: var(--icon-size-md);
   flex-shrink: 0;
   transition: all 0.15s ease;
-  border-radius: var(--icon-radius-xs);
+  border-radius: 0;
   cursor: pointer;
   user-select: none;
-  position: relative;
   color: var(--icon-color-default);
 }
 
@@ -59,43 +44,13 @@
   transition: stroke 0.15s ease;
 }
 
-/* Icon Sizes */
-.icon-xs {
-  width: var(--icon-size-xs);
-  height: var(--icon-size-xs);
-}
-
-.icon-sm {
-  width: var(--icon-size-sm);
-  height: var(--icon-size-sm);
-}
-
-.icon-md {
-  width: var(--icon-size-md);
-  height: var(--icon-size-md);
-}
-
-.icon-lg {
-  width: var(--icon-size-lg);
-  height: var(--icon-size-lg);
-}
-
-.icon-xl {
-  width: var(--icon-size-xl);
-  height: var(--icon-size-xl);
-}
-
-/* Icon States */
 .icon:hover {
   color: var(--icon-color-hover);
-  background: var(--icon-bg-hover);
 }
 
 .icon:active,
 .icon.active {
   color: var(--icon-color-active);
-  background: var(--icon-bg-active);
-  border-color: var(--icon-border-active);
 }
 
 .icon.disabled {
@@ -106,127 +61,8 @@
 }
 
 /* ========================================
-   ICON WITH LABEL
-   ======================================== */
-
-.icon-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 8px 2px 4px;
-  border-radius: var(--icon-radius-sm);
-  transition: all 0.15s ease;
-  cursor: pointer;
-  font-size: 12px;
-  color: var(--icon-color-default);
-  border: 1px solid transparent;
-}
-
-.icon-label:hover {
-  color: var(--icon-color-hover);
-  background: var(--icon-bg-hover);
-  border-color: var(--icon-border-hover);
-}
-
-.icon-label .icon {
-  cursor: pointer;
-}
-
-/* ========================================
-   ICON BUTTON
-   ======================================== */
-
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid transparent;
-  border-radius: var(--icon-radius-sm);
-  background: transparent;
-  color: var(--icon-color-default);
-  cursor: pointer;
-  transition: all 0.15s ease;
-  padding: 0;
-  font-size: 12px;
-}
-
-.icon-btn:hover {
-  color: var(--icon-color-hover);
-  background: var(--icon-bg-hover);
-  border-color: var(--icon-border-hover);
-}
-
-.icon-btn:active,
-.icon-btn.active {
-  color: var(--icon-color-active);
-  background: var(--icon-bg-active);
-  border-color: var(--icon-border-active);
-}
-
-.icon-btn svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.icon-btn.disabled {
-  color: var(--icon-color-disabled);
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* Icon Button Sizes */
-.icon-btn-xs {
-  width: 20px;
-  height: 20px;
-}
-
-.icon-btn-xs svg {
-  width: 12px;
-  height: 12px;
-}
-
-.icon-btn-sm {
-  width: 24px;
-  height: 24px;
-}
-
-.icon-btn-sm svg {
-  width: 14px;
-  height: 14px;
-}
-
-.icon-btn-md {
-  width: 28px;
-  height: 28px;
-}
-
-.icon-btn-md svg {
-  width: 16px;
-  height: 16px;
-}
-
-.icon-btn-lg {
-  width: 32px;
-  height: 32px;
-}
-
-.icon-btn-lg svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* ========================================
    TOOLBAR ICON
    ======================================== */
-
 .toolbar-icon {
   display: inline-flex;
   align-items: center;
@@ -234,7 +70,7 @@
   width: 32px;
   height: 32px;
   border: 1px solid transparent;
-  border-radius: var(--icon-radius-xs);
+  border-radius: 0;
   background: transparent;
   color: #8a929a;
   cursor: pointer;
@@ -265,34 +101,36 @@
   stroke-linejoin: round;
 }
 
-.toolbar-icon.disabled {
-  color: #4a525a;
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
 /* ========================================
-   MENU ICON
+   ICON BUTTON
    ======================================== */
-
-.menu-icon {
+.icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  color: #8a929a;
-  transition: color 0.15s ease;
-  border-radius: var(--icon-radius-xs);
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--icon-color-default);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
 }
 
-.menu-icon:hover {
-  color: #c8d0d8;
-  background: rgba(200, 208, 216, 0.06);
+.icon-btn:hover {
+  color: var(--icon-color-hover);
+  background: var(--icon-bg-hover);
 }
 
-.menu-icon svg {
+.icon-btn:active,
+.icon-btn.active {
+  color: var(--icon-color-active);
+  background: var(--icon-bg-active);
+}
+
+.icon-btn svg {
   width: 16px;
   height: 16px;
   fill: none;
@@ -302,117 +140,29 @@
   stroke-linejoin: round;
 }
 
-/* ========================================
-   ICON GRID (Icon Picker)
-   ======================================== */
-
-.icon-grid {
-  display: grid;
-  gap: 4px;
-  padding: 8px;
-  background: #1a2029;
-  border: 1px solid #2a323a;
-}
-
-.icon-grid-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 8px 4px;
-  border: 1px solid transparent;
-  border-radius: var(--icon-radius-xs);
-  background: transparent;
-  color: #8a929a;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-size: 10px;
-  font-family: inherit;
-}
-
-.icon-grid-item:hover {
-  color: #c8d0d8;
-  background: rgba(200, 208, 216, 0.06);
-  border-color: rgba(200, 208, 216, 0.08);
-}
-
-.icon-grid-item:active,
-.icon-grid-item.active {
-  color: #4a9eff;
-  background: rgba(74, 158, 255, 0.1);
-  border-color: rgba(74, 158, 255, 0.2);
-}
-
-.icon-grid-item .icon {
+.icon-btn-sm {
   width: 24px;
   height: 24px;
 }
 
-.icon-grid-item span {
-  font-size: 9px;
-  line-height: 1;
-  text-align: center;
-  word-break: break-all;
+.icon-btn-sm svg {
+  width: 14px;
+  height: 14px;
 }
 
-/* ========================================
-   ICON LIST (Compact List View)
-   ======================================== */
-
-.icon-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 4px;
-  background: #1a2029;
-  border: 1px solid #2a323a;
+.icon-btn-md {
+  width: 28px;
+  height: 28px;
 }
 
-.icon-list-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-  border: 1px solid transparent;
-  border-radius: var(--icon-radius-xs);
-  background: transparent;
-  color: #8a929a;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-size: 12px;
-  font-family: inherit;
-  width: 100%;
-  text-align: left;
-}
-
-.icon-list-item:hover {
-  color: #c8d0d8;
-  background: rgba(200, 208, 216, 0.06);
-  border-color: rgba(200, 208, 216, 0.08);
-}
-
-.icon-list-item:active,
-.icon-list-item.active {
-  color: #4a9eff;
-  background: rgba(74, 158, 255, 0.1);
-  border-color: rgba(74, 158, 255, 0.2);
-}
-
-.icon-list-item .icon {
+.icon-btn-md svg {
   width: 16px;
   height: 16px;
 }
 
-.icon-list-item .icon-label-text {
-  font-size: 12px;
-  flex: 1;
-}
-
 /* ========================================
-   LOADING STATE
+   LOADING
    ======================================== */
-
 .icon-loading {
   animation: iconPulse 1.5s ease-in-out infinite;
 }
@@ -420,114 +170,4 @@
 @keyframes iconPulse {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
-}
-
-/* ========================================
-   FOCUS RING (Accessibility)
-   ======================================== */
-
-.icon:focus-visible,
-.icon-btn:focus-visible,
-.toolbar-icon:focus-visible,
-.menu-icon:focus-visible,
-.icon-grid-item:focus-visible,
-.icon-list-item:focus-visible {
-  outline: 1px solid #4a9eff;
-  outline-offset: 1px;
-}
-
-/* ========================================
-   HIGH CONTRAST MODE
-   ======================================== */
-
-@media (prefers-contrast: high) {
-  .icon {
-    stroke-width: 2;
-  }
-  
-  .icon:hover {
-    color: #ffffff;
-  }
-  
-  .icon:active,
-  .icon.active {
-    color: #4a9eff;
-  }
-  
-  .icon-btn {
-    border-width: 2px;
-  }
-}
-
-/* ========================================
-   DARK THEME (Default)
-   ======================================== */
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --icon-color-default: #4a525a;
-    --icon-color-hover: #2a323a;
-    --icon-color-active: #4a9eff;
-    --icon-color-disabled: #b0b8c0;
-    
-    --icon-bg-hover: rgba(0, 0, 0, 0.06);
-    --icon-bg-active: rgba(74, 158, 255, 0.12);
-  }
-  
-  .icon-grid {
-    background: #f0f2f4;
-    border-color: #d0d4d8;
-  }
-  
-  .icon-list {
-    background: #f0f2f4;
-    border-color: #d0d4d8;
-  }
-}
-
-/* ========================================
-   UTILITY CLASSES
-   ======================================== */
-
-/* Icon spacing utilities */
-.icon-gap-1 { gap: 4px; }
-.icon-gap-2 { gap: 8px; }
-.icon-gap-3 { gap: 12px; }
-.icon-gap-4 { gap: 16px; }
-
-/* Icon alignment */
-.icon-left { margin-right: 6px; }
-.icon-right { margin-left: 6px; }
-
-/* Icon with text */
-.icon-with-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* ========================================
-   SCROLLBAR (WebKit)
-   ======================================== */
-
-.icon-grid::-webkit-scrollbar,
-.icon-list::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-.icon-grid::-webkit-scrollbar-track,
-.icon-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.icon-grid::-webkit-scrollbar-thumb,
-.icon-list::-webkit-scrollbar-thumb {
-  background: #2a323a;
-  border-radius: 0;
-}
-
-.icon-grid::-webkit-scrollbar-thumb:hover,
-.icon-list::-webkit-scrollbar-thumb:hover {
-  background: #3a424a;
 }
